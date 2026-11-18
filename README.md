@@ -15,10 +15,133 @@ Q(next) = T ⊕ Q   (Q(next) = Q if T = 0, Q(next) = Q' if T = 1)
 <img width="625" height="50" alt="image" src="https://github.com/user-attachments/assets/65034a51-5642-46ac-940a-f7ee975cea9c" />
 
 ## Design / RTL Program
+```
+module dff (
 
+input wire clk, // clock
+
+input wire rst, // asynchronous active-high reset
+
+input wire D, // data input
+
+output reg Q // output
+
+);
+
+always @(posedge clk or posedge rst) begin
+
+if (rst)
+
+Q <= 1'b0;
+
+else
+
+end
+
+Q <= D;
+
+endmodule
+
+module tff (
+
+input wire clk, // clock
+
+input wire rst, // asynchronous active-high reset
+
+input wire T, // toggle input
+
+output reg Q // output
+
+);
+
+always @(posedge clk or posedge rst) begin
+
+if (rst)
+
+Q <= 1'b0;
+
+else if (T)
+
+Q <= ~Q;
+
+else
+
+end
+
+Q <= Q;
+
+endmodule
 ```
 ## Testbench Program
+```
+module tb 5;
 
+reg clk, rst, D, T;
+
+wire Qd, Qt;
+
+// Instantiate the D Flip-Flop
+
+dff dff_uut (
+
+SHAFI ZONE
+
+.clk(clk), .rst(rst), D(D), ); .Q(Qd)
+
+// Instantiate the T Flip-Flop
+
+tff tff_uut (
+
+.clk(cik),
+
+.rst(rst), T(T),
+
+); Q(Qt)
+
+//--- Clock generation: 10 time-unit period
+
+initial clk = 0;
+
+always #5 clk ~clk;
+
+initial begin
+
+//-VCD dump setup --
+
+// name of the VCD file to be generated // dump all signals in this testbench hierarchy
+
+$dumpfile("dff_tff.vcd"); $dumpvars(0, tb5);
+
+$monitor("Time=%0t rst=%b clk=%b | D=%b Qd=%b | T=%b Qt=%b",
+
+Stime, rst, clk, D, Qd, T, Qt);
+
+//- Apply asynchronous reset -
+
+t = 1; D = 0; T = 0
+
+#
+
+//-Apply test vectors on successive clock edges
+
+@(negedge clk); nu = 1 Gamma = 1
+
+@(negedge clk); D = 0 T = 1
+
+@(negedge clk); D = 1 T = 0;
+
+@(negedge clk); D = 0; T = 0; @(negedge clk); D = 1 T = 1;
+
+@(negedge clk); D = 1 T = 1
+
+//- Apply reset again mid-simulation-@(negedge clk); rst = 1;
+
+@(negedge clk); st = 0 D = 1 T = 1
+
+#20 $finish;
+
+end endmodule
+```
 
 
 ## Truth Table
@@ -79,6 +202,7 @@ Q(next) = T ⊕ Q   (T Flip-Flop)
 The design was compiled and simulated using Synopsys VCS, and the functionality was verified using DVE waveform analysis, matching the expected truth table.
 
 **## Output**
+<img width="1920" height="1080" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/2adada80-b531-455f-8dcd-4b04a4c29714" />
 
 
 ## Viva-Voce Questions
